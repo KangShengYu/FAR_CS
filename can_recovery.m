@@ -2,12 +2,12 @@ function flg = can_recovery(n, s)
     d = 100;
     eps = 1e-5;
     theta = randn(n, d);
-    y = theta * x;
     
     x = zeros(d, 1);
     random_indices = randperm(d, s);
     x(random_indices) = randn(s, 1);
     x = sign(x);
+    y = theta * x;
 
     cvx_begin
         variable s1(d)
