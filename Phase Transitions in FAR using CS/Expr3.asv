@@ -1,0 +1,72 @@
+% Expr2.m to draw Fig 3(a)
+clc;
+clear;
+
+M = 4;
+N = 128;
+rate = 0.02; % \Delta f / f_c = 0.02
+beta = 1;
+
+max_n = 125;
+max_k = 25;
+trials_time = 50;
+
+prob = zeros(max_n, max_k);
+
+rng(1)
+
+Phi_far = zeros(N, N * M);
+C = randi([1, M], 1, N);
+xi = 1 + 0.02 * C;
+
+% for i = 1:N
+% 
+%     Phi_x = zeros(N, M);
+% 
+%     for p = 1:M
+% 
+%         for q = 1:N
+%             range = ((p - 1) * C(i)) / M; % p start from 0 or 1?
+%             doppler = ((q - 1) * (i - 1) * xi(i)) / N; % q start from 0 or 1?
+%             Phi_x(q, p) = exp(1j * 2 * pi * (range + doppler)) / sqrt(N);
+%         end
+% 
+%     end
+% 
+%     % t == ctranspose(Phi_x(:,1)) * Phi_x(:,1) == 1
+%     Phi_far(:, (i - 1) * M + 1:i * M) = Phi_x;
+% 
+% end
+
+for i = 1:n
+    for j = 1:m
+        
+
+n = 60;
+k = 5;
+
+s = beta * k * M;
+x = 0;
+
+for t = 1:trials_time
+    x = x + Expr3_can_recovery(Phi_far, N, M, n, s, eps);
+end
+disp(x);
+
+
+for n = 1:max_n
+
+    parfor k = 1:max_k
+        s = beta * k * M;
+        x = 0;
+
+        for t = 1:trials_time
+            x = x + Expr3_can_recovery(Phi_far, N, M, n, s, eps);
+        end
+
+        prob(n, k) = x / trials_time;
+    end
+
+end
+
+save("Expr3.mat", "prob");
